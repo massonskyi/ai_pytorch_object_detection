@@ -2,23 +2,29 @@ import numpy as np
 import cv2
 import torch
 import glob as glob
+import fnmatch
 from model import create_model
+
 # set the computation device
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
 # load the model and the trained weights
-model = create_model(num_classes=5).to(device)
+model = create_model(num_classes=1).to(device)
 model.load_state_dict(torch.load(
-    '../outputs/model100.pth', map_location=device
+    './outputs/model2.pth', map_location=device
 ))
+torch.save(model, "./outputs/model2.pt")
 model.eval()
 
 # directory where all the images are present
-DIR_TEST = '../test_data'
-test_images = glob.glob(f"{DIR_TEST}/*")
+DIR_TEST = './data/train/images'
+jpg_files = glob.glob(f"{DIR_TEST}/*")
+
+# Фильтруем только файлы с расширением .jpg
+test_images = fnmatch.filter(jpg_files, "*.jpg")
 print(f"Test instances: {len(test_images)}")
 # classes: 0 index is reserved for background
 CLASSES = [
-    'background', 'Arduino_Nano', 'ESP8266', 'Raspberry_Pi_3', 'Heltec_ESP32_Lora'
+    'FPV_DRONE'
 ]
 # define the detection threshold...
 # ... any detection having score below this will be discarded
@@ -33,9 +39,9 @@ for i in range(len(test_images)):
     # make the pixel range between 0 and 1
     image /= 255.0
     # bring color channels to front
-    image = np.transpose(image, (2, 0, 1)).astype(np.float)
+    image = np.transpose(image, (2, 0, 1)).astype(np.float32)
     # convert to tensor
-    image = torch.tensor(image, dtype=torch.float).cuda()
+    image = torch.tensor(image, dtype=torch.float).cpu()
     # add batch dimension
     image = torch.unsqueeze(image, 0)
     with torch.no_grad():

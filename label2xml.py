@@ -151,4 +151,6 @@ def label2xml(path: list[str] = ["./data/train", "./data/valid"], path_to_save: 
                 else:
                     os.remove(os.path.join(img_path, img_file))
                     pprint("Так как создать xml дял данного файла не удалось - он был удален.")
+
+
 label2xml()
