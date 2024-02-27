@@ -7,7 +7,7 @@ import cv2
 import subprocess
 
 import numpy as np
-from pprint import pprint
+
 
 def _remove_xml_files(directory_path: str | list[str]):
     try:
@@ -149,8 +149,16 @@ def label2xml(path: list[str] = ["./data/train", "./data/valid"], path_to_save: 
                     }
                     _convert_to_xml(**params)
                 else:
-                    os.remove(os.path.join(img_path, img_file))
-                    pprint("Так как создать xml дял данного файла не удалось - он был удален.")
+                    import shutil
+
+                    # Create a new directory
+                    new_dir = f'./_{path[j]}_bad_jpg/'
+                    os.makedirs(new_dir, exist_ok=True)
+
+                    # Move a file into the new directory
+                    old_file_path = os.path.join(img_path, img_file)
+                    new_file_path = os.path.join(new_dir, img_file)
+                    shutil.move(old_file_path, new_file_path)
 
 
 label2xml()
