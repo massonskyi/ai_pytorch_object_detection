@@ -12,8 +12,11 @@ model = create_model(num_classes=1).to(device)
 model.load_state_dict(torch.load(
     './outputs/model2.pth', map_location=device
 ))
-torch.save(model, "./outputs/model2.pt")
 model.eval()
+
+# torch.save(model, "./outputs/model2.onnx")
+# Export the PyTorch model to ONNX
+# torch.onnx.export(model, torch.Tensor(1, 3, 640, 640), "./outputs/best_onnx.onnx", verbose=True)
 
 # directory where all the images are present
 DIR_TEST = './data/train/images'
