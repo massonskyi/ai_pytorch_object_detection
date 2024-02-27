@@ -3,18 +3,26 @@ import cv2
 import torch
 import glob as glob
 from model import create_model
+# set the computation device
+device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+# load the model and the trained weights
+model = create_model(num_classes=5).to(device)
+model.load_state_dict(torch.load(
+    '../outputs/model100.pth', map_location=device
+))
+model.eval()
 
-DIR_TEST = './data/train/images'
+# directory where all the images are present
+DIR_TEST = '../test_data'
 test_images = glob.glob(f"{DIR_TEST}/*")
 print(f"Test instances: {len(test_images)}")
 # classes: 0 index is reserved for background
 CLASSES = [
-    "FPV_DRONE"
+    'background', 'Arduino_Nano', 'ESP8266', 'Raspberry_Pi_3', 'Heltec_ESP32_Lora'
 ]
 # define the detection threshold...
 # ... any detection having score below this will be discarded
-detection_threshold = 0.5
-
+detection_threshold = 0.8
 for i in range(len(test_images)):
     # get the image file name for saving output later on
     image_name = test_images[i].split('/')[-1].split('.')[0]

@@ -14,7 +14,6 @@ plt.style.use('ggplot')
 
 
 # function for running training iterations
-# function for running training iterations
 def train(train_data_loader, model):
     print('Training')
     global train_itr

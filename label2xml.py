@@ -7,7 +7,7 @@ import cv2
 import subprocess
 
 import numpy as np
-
+from pprint import pprint
 
 def _remove_xml_files(directory_path: str | list[str]):
     try:
@@ -126,7 +126,7 @@ def label2xml(path: list[str] = ["./data/train", "./data/valid"], path_to_save: 
                 if len(data) > 0 and img is not None:
                     data = data[0].split()
                     # xmin,ymin,xmax,ymax = np.float32(data[1:5])
-                    xmin, ymin, xmax, ymax =  _reverse_normalize(data[1:5], img.shape)
+                    xmin, ymin, xmax, ymax = _reverse_normalize(data[1:5], img.shape)
                     params = {
                         "count": i,
                         "folder": "images",
@@ -148,6 +148,7 @@ def label2xml(path: list[str] = ["./data/train", "./data/valid"], path_to_save: 
                         "save_folder": os.path.join(img_path)
                     }
                     _convert_to_xml(**params)
-
-
+                else:
+                    os.remove(os.path.join(img_path, img_file))
+                    pprint("Так как создать xml дял данного файла не удалось - он был удален.")
 label2xml()

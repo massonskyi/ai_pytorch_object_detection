@@ -2967,3 +2967,7 @@
 /data/data.yaml
 /data/README.dataset.txt
 /data/README.roboflow.txt
+/data/valid/images/vlcsnap-2024-02-16-14h31m34s146_png.rf.d4aa37d9acc55b27d4273ffecb8effad.xml
+/data/train/images/vlcsnap-2024-02-16-14h31m41s876_png.rf.d275ccff5bc79780e8880560dd0e8fe4.xml
+/data/train/images/vlcsnap-2024-02-16-14h32m10s335_png.rf.e85594ea2920b8c1f5b90c5da345b157.xml
+/data/train/images/vlcsnap-2024-02-16-14h32m33s747_png.rf.a539524c7094b3b7ce80b7838553dacd.xml
