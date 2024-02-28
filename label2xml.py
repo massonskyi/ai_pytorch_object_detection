@@ -86,6 +86,7 @@ def _convert_to_xml(**kwargs) -> bool:
 def _reverse_normalize(data, resolution):
     x_center_normalized, y_center_normalized, width_normalized, height_normalized = np.float32(data)
 
+    """
     # Reverse normalization
     x_center = x_center_normalized * resolution[1]
     y_center = y_center_normalized * resolution[0]
@@ -97,8 +98,14 @@ def _reverse_normalize(data, resolution):
     y1 = int(y_center - height / 2)
     x2 = int(x_center + width / 2)
     y2 = int(y_center + height / 2)
+    """
+    # Получаем целочисленные координаты
+    xmin = int(np.round(x_center_normalized * resolution[1]))
+    ymin = int(np.round(y_center_normalized * resolution[0]))
+    xmax = int(np.round((x_center_normalized + width_normalized) * resolution[1]))
+    ymax = int(np.round((y_center_normalized + height_normalized) * resolution[0]))
 
-    return [x1, y1, x2, y2]
+    return [xmin, ymin, xmax, ymax]
 
 
 def label2xml(path: list[str] = ["./data/train", "./data/valid"], path_to_save: str = "./save"):
@@ -125,7 +132,7 @@ def label2xml(path: list[str] = ["./data/train", "./data/valid"], path_to_save: 
                 data = f.readlines()
                 if len(data) > 0 and img is not None:
                     data = data[0].split()
-                    # xmin,ymin,xmax,ymax = np.float32(data[1:5])
+                    # xmin,ymin,xmax,ymax = data[1:5]
                     xmin, ymin, xmax, ymax = _reverse_normalize(data[1:5], img.shape)
                     params = {
                         "count": i,
