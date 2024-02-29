@@ -3,16 +3,19 @@ from torch.optim import optimizer
 from config import DEVICE, NUM_CLASSES, NUM_EPOCHS, OUT_DIR
 from config import VISUALIZE_TRANSFORMED_IMAGES
 from config import SAVE_PLOTS_EPOCH, SAVE_MODEL_EPOCH
-from model import create_model
+from model.custom import DModel
 from utils import Averager
 from tqdm.auto import tqdm
 from datasets import train_loader, valid_loader
 import torch
 import matplotlib.pyplot as plt
 import time
+import torchvision.transforms as transforms
+
 plt.style.use('ggplot')
 
 
+# function for running training iterations
 # function for running training iterations
 def train(train_data_loader, model):
     print('Training')
@@ -40,6 +43,7 @@ def train(train_data_loader, model):
         # update the loss value beside the progress bar for each iteration
         prog_bar.set_description(desc=f"Loss: {loss_value:.4f}")
     return train_loss_list
+
 
 
 # function for running validation iterations
@@ -71,7 +75,7 @@ def validate(valid_data_loader, model):
 
 if __name__ == '__main__':
     # initialize the model and move to the computation device
-    model = create_model(num_classes=NUM_CLASSES)
+    model = DModel()
     model = model.to(DEVICE)
     # get the model parameters
     params = [p for p in model.parameters() if p.requires_grad]

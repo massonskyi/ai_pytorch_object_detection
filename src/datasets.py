@@ -5,7 +5,7 @@ import numpy as np
 import os
 import glob as glob
 from xml.etree import ElementTree as et
-from config import CLASSES, RESIZE_TO, TRAIN_DIR, VALID_DIR, BATCH_SIZE
+from config import CLASSES, DATASET_DIR, RESIZE_TO, TRAIN_DIR, VALID_DIR, BATCH_SIZE
 from torch.utils.data import Dataset, DataLoader
 from utils import collate_fn, get_train_transform, get_valid_transform
 
@@ -68,9 +68,10 @@ class MicrocontrollerDataset(Dataset):
             xmin_final = (xmin / image_width) * self.width
             xmax_final = (xmax / image_width) * self.width
             ymin_final = (ymin / image_height) * self.height
-            yamx_final = (ymax / image_height) * self.height
+            ymax_final = (ymax / image_height) * self.height
 
-            boxes.append([xmin_final, ymin_final, xmax_final, yamx_final])
+
+            boxes.append([xmin_final, ymin_final, xmax_final, ymax_final])
 
         # bounding box to tensor
         boxes = torch.as_tensor(boxes, dtype=torch.float32)
@@ -103,8 +104,8 @@ class MicrocontrollerDataset(Dataset):
 
 
 # prepare the final datasets and data loaders
-train_dataset = MicrocontrollerDataset("./data/train/images/", 640, 640, 1, get_train_transform())
-valid_dataset = MicrocontrollerDataset("./data/valid/images/", 640, 640, 1, get_valid_transform())
+train_dataset = MicrocontrollerDataset(f"{DATASET_DIR}/train/images/", 640, 640, 1, get_train_transform())
+valid_dataset = MicrocontrollerDataset(f"{DATASET_DIR}/valid/images/", 640, 640, 1, get_valid_transform())
 train_loader = DataLoader(
     train_dataset,
     batch_size=BATCH_SIZE,
@@ -125,7 +126,7 @@ print(f"Number of validation samples: {len(valid_dataset)}\n")
 if __name__ == '__main__':
     # sanity check of the Dataset pipeline with sample visualization
     dataset = MicrocontrollerDataset(
-        "./data/train/images/", 640, 640, [1], get_train_transform()
+        f"{DATASET_DIR}/train/images/", 640, 640, [1], get_train_transform()
     )
     print(f"Number of training images: {len(dataset)}")
 

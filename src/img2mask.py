@@ -83,5 +83,5 @@ class Img2Mask:
 
 
 
-img2mask = Img2Mask('./data/train/images', '.')
+img2mask = Img2Mask('./data/train/images', '')
 img2mask.img2mask()

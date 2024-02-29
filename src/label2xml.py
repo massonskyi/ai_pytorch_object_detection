@@ -8,6 +8,8 @@ import subprocess
 
 import numpy as np
 
+from config import TRAIN_DIR, VALID_DIR
+
 
 def _remove_xml_files(directory_path: str | list[str]):
     try:
@@ -85,20 +87,6 @@ def _convert_to_xml(**kwargs) -> bool:
 
 def _reverse_normalize(data, resolution):
     x_center_normalized, y_center_normalized, width_normalized, height_normalized = np.float32(data)
-
-    """
-    # Reverse normalization
-    x_center = x_center_normalized * resolution[1]
-    y_center = y_center_normalized * resolution[0]
-    width = width_normalized * resolution[1]
-    height = height_normalized * resolution[0]
-
-    # Calculate original points
-    x1 = int(x_center - width / 2)
-    y1 = int(y_center - height / 2)
-    x2 = int(x_center + width / 2)
-    y2 = int(y_center + height / 2)
-    """
     # Получаем целочисленные координаты
     xmin = int(np.round(x_center_normalized * resolution[1]))
     ymin = int(np.round(y_center_normalized * resolution[0]))
@@ -108,7 +96,7 @@ def _reverse_normalize(data, resolution):
     return [xmin, ymin, xmax, ymax]
 
 
-def label2xml(path: list[str] = ["./data/train", "./data/valid"], path_to_save: str = "./save"):
+def label2xml(path: list[str] = [TRAIN_DIR, VALID_DIR], path_to_save: str = "../save"):
     """
     Converts label to xml format and returns it.
     """
