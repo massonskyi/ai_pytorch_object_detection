@@ -5,7 +5,7 @@ import numpy as np
 import os
 import glob as glob
 from xml.etree import ElementTree as et
-from config import CLASSES, DATASET_DIR, RESIZE_TO, TRAIN_DIR, VALID_DIR, BATCH_SIZE
+from ai_pytorch_object_detection.config import CLASSES, DATASET_DIR, RESIZE_TO, TRAIN_DIR, VALID_DIR, BATCH_SIZE
 from torch.utils.data import Dataset, DataLoader
 from utils import collate_fn, get_train_transform, get_valid_transform
 
@@ -70,7 +70,6 @@ class MicrocontrollerDataset(Dataset):
             ymin_final = (ymin / image_height) * self.height
             ymax_final = (ymax / image_height) * self.height
 
-
             boxes.append([xmin_final, ymin_final, xmax_final, ymax_final])
 
         # bounding box to tensor
@@ -103,21 +102,21 @@ class MicrocontrollerDataset(Dataset):
         return len(self.all_images)
 
 
-# prepare the final datasets and data loaders
+# prepare the final datasets_v1_1000ph and data loaders
 train_dataset = MicrocontrollerDataset(f"{DATASET_DIR}/train/images/", 640, 640, 1, get_train_transform())
 valid_dataset = MicrocontrollerDataset(f"{DATASET_DIR}/valid/images/", 640, 640, 1, get_valid_transform())
 train_loader = DataLoader(
     train_dataset,
     batch_size=BATCH_SIZE,
     shuffle=True,
-    num_workers=0,
+    num_workers=8,
     collate_fn=collate_fn
 )
 valid_loader = DataLoader(
     valid_dataset,
     batch_size=BATCH_SIZE,
     shuffle=False,
-    num_workers=0,
+    num_workers=8,
     collate_fn=collate_fn
 )
 print(f"Number of training samples: {len(train_dataset)}")

@@ -3,11 +3,9 @@ import cv2
 import torch
 import glob as glob
 import fnmatch
-from model import create_model
+from ai_pytorch_object_detection.model.resnet50_fpn import create_model
 
-# set the computation device
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
-# load the model and the trained weights
 model = create_model(num_classes=1).to(device)
 model.load_state_dict(torch.load(
     './outputs/model25.pth', map_location=device
@@ -15,7 +13,7 @@ model.load_state_dict(torch.load(
 model.eval()
 
 #torch.save(model, "./outputs/model2.onnx")
-# Export the PyTorch model to ONNX
+
 torch.onnx.export(model, torch.Tensor(1, 3, 640, 640), "./outputs/2.onnx", verbose=True)
 
 # directory where all the images are present

@@ -2,11 +2,8 @@ import albumentations as A
 import cv2
 import numpy as np
 from albumentations.pytorch import ToTensorV2
-from config import DEVICE, CLASSES as classes
+from ai_pytorch_object_detection.config import DEVICE, CLASSES as classes
 
-
-# this class keeps track of the training and validation loss values...
-# ... and helps to get the average for each epoch as well
 class Averager:
     def __init__(self):
         self.current_total = 0.0
@@ -39,8 +36,8 @@ def collate_fn(batch):
 # define the training tranforms
 def get_train_transform():
     return A.Compose([
-        A.Flip(0.5),
-        A.RandomRotate90(0.5),
+        A.Flip(True),
+        A.RandomRotate90(True),
         A.MotionBlur(p=0.2),
         A.MedianBlur(blur_limit=3, p=0.1),
         A.Blur(blur_limit=3, p=0.1),

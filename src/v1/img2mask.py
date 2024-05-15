@@ -1,12 +1,6 @@
 import os
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
 import torch
 import cv2
-import torchvision
-from sklearn.model_selection import train_test_split
-from tqdm import tqdm
 import torchvision.transforms.functional as F
 from pprint import pprint as pretty_print
 from torchvision.models.segmentation import fcn_resnet50
@@ -80,7 +74,6 @@ class Img2Mask:
             normalized_masks = torch.nn.functional.softmax(output, dim=1)
 
         return None
-
 
 
 img2mask = Img2Mask('./data/train/images', '')

@@ -8,7 +8,7 @@ import subprocess
 
 import numpy as np
 
-from config import TRAIN_DIR, VALID_DIR
+from ai_pytorch_object_detection.config import TRAIN_DIR, VALID_DIR
 
 
 def _remove_xml_files(directory_path: str | list[str]):

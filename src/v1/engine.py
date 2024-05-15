@@ -1,9 +1,9 @@
 from torch.optim import optimizer
 
-from config import DEVICE, NUM_CLASSES, NUM_EPOCHS, OUT_DIR
-from config import VISUALIZE_TRANSFORMED_IMAGES
-from config import SAVE_PLOTS_EPOCH, SAVE_MODEL_EPOCH
-from model.custom import DModel
+from ai_pytorch_object_detection.config import DEVICE, NUM_CLASSES, NUM_EPOCHS, OUT_DIR
+from ai_pytorch_object_detection.config import VISUALIZE_TRANSFORMED_IMAGES
+from ai_pytorch_object_detection.config import SAVE_PLOTS_EPOCH, SAVE_MODEL_EPOCH
+from ai_pytorch_object_detection.model.custom import DModel
 from utils import Averager
 from tqdm.auto import tqdm
 from datasets import train_loader, valid_loader

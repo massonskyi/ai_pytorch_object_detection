@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import yaml
 
-from config import MODEL_YAML
+from ai_pytorch_object_detection.config import MODEL_YAML
 
 
 class SPPF(nn.Module):
@@ -76,6 +76,8 @@ class Backbone(nn.Module):
             for layer in self.layers:
                 x = layer(x)
             return x
+
+
 def _parse_layer(layer_cfg):
     if layer_cfg[2] == 'Conv':
         return [nn.Conv2d(layer_cfg[3][1], layer_cfg[3][0], kernel_size=3, stride=layer_cfg[3][2], padding=1)
